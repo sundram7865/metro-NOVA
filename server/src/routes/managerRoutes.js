@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var managerControllers_1 = require("../controllers/managerControllers");
+var router = express_1.default.Router();
+router.get("/:cognitoId", managerControllers_1.getManager);
+router.put("/:cognitoId", managerControllers_1.updateManager);
+router.get("/:cognitoId/properties", managerControllers_1.getManagerProperties);
+router.post("/", managerControllers_1.createManager);
+exports.default = router;

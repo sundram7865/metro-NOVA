@@ -1,0 +1,10 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var authMiddleware_1 = require("../middleware/authMiddleware");
+var applicationControllers_1 = require("../controllers/applicationControllers");
+var router = express_1.default.Router();
+router.post("/", (0, authMiddleware_1.authMiddleware)(["tenant"]), applicationControllers_1.createApplication);
+router.put("/:id/status", (0, authMiddleware_1.authMiddleware)(["manager"]), applicationControllers_1.updateApplicationStatus);
+router.get("/", (0, authMiddleware_1.authMiddleware)(["manager", "tenant"]), applicationControllers_1.listApplications);
+exports.default = router;

@@ -1,0 +1,13 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+var express_1 = require("express");
+var propertyControllers_1 = require("../controllers/propertyControllers");
+var multer_1 = require("multer");
+var authMiddleware_1 = require("../middleware/authMiddleware");
+var storage = multer_1.default.memoryStorage();
+var upload = (0, multer_1.default)({ storage: storage });
+var router = express_1.default.Router();
+router.get("/", propertyControllers_1.getProperties);
+router.get("/:id", propertyControllers_1.getProperty);
+router.post("/", (0, authMiddleware_1.authMiddleware)(["manager"]), upload.array("photos"), propertyControllers_1.createProperty);
+exports.default = router;
