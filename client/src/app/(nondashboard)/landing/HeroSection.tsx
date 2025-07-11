@@ -50,12 +50,13 @@ const HeroSection = () => {
   return (
     <div className="relative h-screen">
       <Image
-        src="/landing-splash.jpg"
-        alt="metroNOVA Rental Platform Hero Section"
-        fill
-        className="object-cover object-center"
-        priority
-      />
+  src="/landing-splash.jpeg"
+  alt="metroNOVA Rental Platform Hero Section"
+  fill
+  className="object-cover object-center brightness-150"
+  priority
+/>
+
       <div className="absolute inset-0 bg-black bg-opacity-60"></div>
       <motion.div
         initial={{ opacity: 0, y: 20 }}
