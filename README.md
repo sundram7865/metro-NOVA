@@ -1,8 +1,38 @@
-# metroNOVA 🏙️
+# 🚇 METRO-NOVA
 
-A full-stack real estate platform that enables users to **buy, sell, and rent** properties with robust location search, role-based access (tenant/manager), and a smooth user experience.
+> Transforming Urban Mobility with Seamless Innovation
+
+<p align="center">
+  <img src="https://img.shields.io/github/last-commit/sundram7865/metro-NOVA?style=flat-square" />
+  <img src="https://img.shields.io/github/languages/top/sundram7865/metro-NOVA?style=flat-square" />
+  <img src="https://img.shields.io/github/repo-size/sundram7865/metro-NOVA?style=flat-square" />
+  <img src="https://img.shields.io/github/license/sundram7865/metro-NOVA?style=flat-square" />
+</p>
 
 ---
+
+## 🛠️ Built With
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Next.js-black?style=for-the-badge&logo=nextdotjs" />
+  <img src="https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB" />
+  <img src="https://img.shields.io/badge/TypeScript-blue?style=for-the-badge&logo=typescript" />
+  <img src="https://img.shields.io/badge/Tailwind_CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white" />
+  <img src="https://img.shields.io/badge/Shadcn_UI-purple?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Framer_Motion-0055FF?style=for-the-badge" />
+  <img src="https://img.shields.io/badge/Redux_Toolkit-593D88?style=for-the-badge&logo=redux" />
+  <img src="https://img.shields.io/badge/React_Hook_Form-FF69B4?style=for-the-badge&logo=reacthookform&logoColor=white" />
+  <img src="https://img.shields.io/badge/Zod-purple?style=for-the-badge&logo=zod&logoColor=white" />
+  <img src="https://img.shields.io/badge/Mapbox-black?style=for-the-badge&logo=mapbox&logoColor=white" />
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=node.js&logoColor=white" />
+  <img src="https://img.shields.io/badge/Express.js-000000?style=for-the-badge&logo=express&logoColor=white" />
+  <img src="https://img.shields.io/badge/Prisma-2D3748?style=for-the-badge&logo=prisma&logoColor=white" />
+  <img src="https://img.shields.io/badge/PostgreSQL-4169E1?style=for-the-badge&logo=postgresql&logoColor=white" />
+  <img src="https://img.shields.io/badge/AWS_Cognito-FF9900?style=for-the-badge&logo=amazonaws&logoColor=white" />
+  <img src="https://img.shields.io/badge/Vercel-black?style=for-the-badge&logo=vercel&logoColor=white" />
+  <img src="https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render&logoColor=white" />
+</p>
+
 
 ## 🔧 Tech Stack
 
