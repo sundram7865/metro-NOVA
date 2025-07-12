@@ -163,7 +163,7 @@ Frontend runs on [http://localhost:3000](http://localhost:3000)
 
 ## 🖼️ Preview
 
-![metroNOVA Preview](https://metro-nova.vercel.app/preview.png)
+![metroNOVA Preview](./client/public/banner-splash)
 
 ---
 
