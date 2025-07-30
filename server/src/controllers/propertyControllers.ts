@@ -1,17 +1,14 @@
 import { Request, Response } from "express";
-import { PrismaClient, Prisma } from "@prisma/client";
+import { PrismaClient, Prisma, Location } from "@prisma/client";
 import { wktToGeoJSON } from "@terraformer/wkt";
-import { S3Client } from "@aws-sdk/client-s3";
-import { Location } from "@prisma/client";
-import { Upload } from "@aws-sdk/lib-storage";
 import axios from "axios";
+import cloudinary from "../utils/cloudinary"; // ✅ New import for Cloudinary
 
 const prisma = new PrismaClient();
 
-const s3Client = new S3Client({
-  region: process.env.AWS_REGION,
-});
-
+// ─────────────────────────────────────────────
+// GET ALL PROPERTIES
+// ─────────────────────────────────────────────
 export const getProperties = async (
   req: Request,
   res: Response
@@ -105,7 +102,7 @@ export const getProperties = async (
       const lat = parseFloat(latitude as string);
       const lng = parseFloat(longitude as string);
       const radiusInKilometers = 1000;
-      const degrees = radiusInKilometers / 111; // Converts kilometers to degrees
+      const degrees = radiusInKilometers / 111; // Convert km to degrees
 
       whereConditions.push(
         Prisma.sql`ST_DWithin(
@@ -141,7 +138,6 @@ export const getProperties = async (
     `;
 
     const properties = await prisma.$queryRaw(completeQuery);
-
     res.json(properties);
   } catch (error: any) {
     res
@@ -150,6 +146,9 @@ export const getProperties = async (
   }
 };
 
+// ─────────────────────────────────────────────
+// GET SINGLE PROPERTY
+// ─────────────────────────────────────────────
 export const getProperty = async (
   req: Request,
   res: Response
@@ -181,6 +180,7 @@ export const getProperty = async (
           },
         },
       };
+
       res.json(propertyWithCoordinates);
     }
   } catch (err: any) {
@@ -190,6 +190,9 @@ export const getProperty = async (
   }
 };
 
+// ─────────────────────────────────────────────
+// CREATE PROPERTY
+// ─────────────────────────────────────────────
 export const createProperty = async (
   req: Request,
   res: Response
@@ -206,24 +209,19 @@ export const createProperty = async (
       ...propertyData
     } = req.body;
 
+    // ✅ Upload files to Cloudinary
     const photoUrls = await Promise.all(
       files.map(async (file) => {
-        const uploadParams = {
-          Bucket: process.env.S3_BUCKET_NAME!,
-          Key: `properties/${Date.now()}-${file.originalname}`,
-          Body: file.buffer,
-          ContentType: file.mimetype,
-        };
-
-        const uploadResult = await new Upload({
-          client: s3Client,
-          params: uploadParams,
-        }).done();
-
-        return uploadResult.Location;
+        const base64 = file.buffer.toString("base64");
+        const dataUri = `data:${file.mimetype};base64,${base64}`;
+        const result = await cloudinary.uploader.upload(dataUri, {
+          folder: "properties",
+        });
+        return result.secure_url;
       })
     );
 
+    // 🌐 Geocode address
     const geocodingUrl = `https://nominatim.openstreetmap.org/search?${new URLSearchParams(
       {
         street: address,
@@ -234,11 +232,13 @@ export const createProperty = async (
         limit: "1",
       }
     ).toString()}`;
+
     const geocodingResponse = await axios.get(geocodingUrl, {
       headers: {
-        "User-Agent": "RealEstateApp (justsomedummyemail@gmail.com",
+        "User-Agent": "RealEstateApp (justsomedummyemail@gmail.com)",
       },
     });
+
     const [longitude, latitude] =
       geocodingResponse.data[0]?.lon && geocodingResponse.data[0]?.lat
         ? [
@@ -247,14 +247,14 @@ export const createProperty = async (
           ]
         : [0, 0];
 
-    // create location
+    // 📍 Create location
     const [location] = await prisma.$queryRaw<Location[]>`
       INSERT INTO "Location" (address, city, state, country, "postalCode", coordinates)
       VALUES (${address}, ${city}, ${state}, ${country}, ${postalCode}, ST_SetSRID(ST_MakePoint(${longitude}, ${latitude}), 4326))
       RETURNING id, address, city, state, country, "postalCode", ST_AsText(coordinates) as coordinates;
     `;
 
-    // create property
+    // 🏠 Create property
     const newProperty = await prisma.property.create({
       data: {
         ...propertyData,
